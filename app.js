@@ -10,6 +10,7 @@ function TicTacToeGame(){
 	let storedBoxArrX = [];
 	var comPlayer = "O";
 	var m = document.getElementById("message");
+	var mcx = document.getElementsByClassName("message");
 	var mc = document.getElementById("msgContent");
 	var mt = document.getElementById("alertName");
 	var cl = document.getElementById("close");
@@ -19,8 +20,7 @@ function TicTacToeGame(){
 
 	// events
 	cl.addEventListener("click", function(){
-		m.classList.remove("opened");
-		m.className += " closenow";
+		m.setAttribute('class', 'message closenow');
 	});
 
 	rf.addEventListener("click", function(){
@@ -40,10 +40,48 @@ function TicTacToeGame(){
 				checkSelected(targetedItem, selItm);
 			});
 		}
-		m.classList.remove("closenow");
-		m.className += " opened";
+		m.setAttribute('class', 'message opened');
 		mt.innerHTML = "<span class='wi'>TicTacToe Game</span>";
 		mc.innerHTML = "Welcome Player 1 - To play, click close...";
+	}
+
+	// if player X wins, show alert
+	function xWins(xSel){
+		m.setAttribute('class', 'message opened');
+		mt.innerHTML = "<span class='wi'>Congratulations!</span>";
+		mc.innerHTML = xSel + " wins! (That's you...)";
+		found = true;
+		return false;
+	}
+
+	// if player O wins, show alert
+	function oWins(){
+		m.setAttribute('class', 'message opened');
+		mt.innerHTML = "<span class='er'>Bummer...</span>";
+		mc.innerHTML = "The computer won!";
+		found = true;
+		return false;
+	}
+
+	// Check if any more moves are possible
+	// If not, do nothing, if no more moves available -
+	// alert user NO MORE MOZ
+	function checkBoardComplete(v){
+		var count = 0;
+		var bxFound = document.getElementsByClassName("box"),
+		    len = bxFound.length;
+		for(var ii = 0; ii < len; ii++) {
+			if(bxFound[ii].innerHTML != "" && bxFound[ii].innerHTML != null){
+				count++;
+			}
+
+			if(count == 9){
+				m.setAttribute('class', 'message opened error');
+				mt.innerHTML = "Oops!";
+				mc.innerHTML = "You ran out of turns... Click 'refresh' to start a new game!";
+				return false;
+			}
+		}
 	}
 
 	// loop through WinningCombinations Array
@@ -68,33 +106,23 @@ function TicTacToeGame(){
 		var checkO = wc.indexOf(sbaO);
 		var checkX = wc.indexOf(sbaX);
 
-		if(selItm === "X"){
-			if(checkX != -1){
-				m.classList.remove("closenow");
-				m.className += " opened";
-				mt.innerHTML = "<span class='wi'>Congratulations!</span>";
-				mc.innerHTML = selItm + " wins! (That's you...)";
-				found = true;
-				return false;
+		var s = selItm.toString();
+
+		if(s == "O"){
+			if(checkO != -1){
+				oWins();
 			} else {
 				found = false;
-				console.log("x turn did not win...");
-				return true;
+				checkBoardComplete(selItm);
 			}
 		}
 
-		if(selItm === "O") {
-			if(checkO != -1){
-				m.classList.remove("closenow");
-				m.className += " opened";
-				mt.innerHTML = "<span class='er'>Bummer...</span>";
-				mc.innerHTML = "The computer won!";
-				found = true;
-				return false;
+		if(s == "X") {
+			if(checkX != -1){
+				xWins(selItm);
 			} else {
 				found = false;
-				console.log("o turn did not win...");
-				return true;
+				checkBoardComplete(selItm);
 			}
 		}
 	}
@@ -113,6 +141,7 @@ function TicTacToeGame(){
 		} else {
 			document.getElementById(item).innerHTML = sel;
 			confirmWin();
+			//checkBoardComplete();
 			runAutomatedTurn();
 		}
 	}
@@ -121,18 +150,16 @@ function TicTacToeGame(){
 	function checkSelected(item, sel) {
 		var fx = storedBoxArrX;
 		var fo = storedBoxArrO;
-		m.classList.remove("opened");
-		m.className += " closenow"; //close alert
+		
 		if(sel){
+
 			if(fx.indexOf(item) !== -1){
-				m.classList.remove("closenow");
-				m.className += " opened error";
+				m.setAttribute('class', 'message opened error');
 				mt.innerHTML = "Oops!";
 				mc.innerHTML = "You already set this answer.";
 				return false;
 			} else if (fo.indexOf(item) !== -1) {
-				m.classList.remove("closenow");
-				m.className += " opened error";
+				m.setAttribute('class', 'message opened error');
 				mt.innerHTML = "Oops!";
 				mc.innerHTML = "Hey... you can't play this box!";
 				return false;
@@ -148,6 +175,7 @@ function TicTacToeGame(){
 	// if sel = "X", automated turn will be initated
 	// AutomatedTurn will skip this case/switch check
 	function setSelection(item, sel) {
+		m.setAttribute('class', 'message');
 		if(selItm === "") {
 			selItm = "X";
 			storedBoxArrX.push(item);
@@ -165,7 +193,7 @@ function TicTacToeGame(){
 	// using Math.random() it searches empty boxes then stores
 	// the selItem(Player letter) into the box
 	function runAutomatedTurn() {
-		if(found == false){
+		if(found === false){
 			// create a new array for empty box items
 			let emptyBxArr = [];
 			// loop through all box elements with the class .box
