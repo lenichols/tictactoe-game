@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Tic Tac Toe by L. Nichols</title>
+	<link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+<div class="container">
+	<div id="message" class="message">
+		<h1 id="alertName"></h1>
+		<h2 id="msgContent"></h2>
+		<a id="close" href="#" class="closeme">Close</a>
+	</div>
+	<div id="humanUser">Player X =&nbsp;&nbsp;[You]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;Player O =&nbsp;&nbsp;[Computer]</div>
+	<div id="game_board" class="game">
+		<!-- row 1 -->
+		<div id="one" class="box"></div>
+		<div id="two" class="box"></div>
+		<div id="three" class="box"></div>
+		<!-- row 2 -->
+		<div id="four" class="box"></div>
+		<div id="five" class="box"></div>
+		<div id="six" class="box"></div>
+		<!-- row 3 -->
+		<div id="seven" class="box"></div>
+		<div id="eight" class="box"></div>
+		<div id="nine" class="box"></div>
+	</div>
+	<a id="refresh" href="#" class="refresh">refresh</a>
+</div>
+</div>
+<script src="app.js" type="text/javascript"></script>
+<script>
+	var beginPlay = new TicTacToeGame();
+	beginPlay.startNewGame();
+</script>
+</body>
+</html>
