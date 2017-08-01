@@ -5,7 +5,7 @@ HTML + Javascript OOP + CSS only Tic Tac Toe Game - feel free to clone and help 
 
 ## Demo
 
-* [Temp Server](http://linkupreggae.com/tictactoe-game/tictactoe-game.html) - Will move in the future
+* [Tic Tac Toe Game Demo](http://linkupreggae.com/tictactoe-game/tictactoe-game.html) - Will move in the future
 
 ## Usage
 
